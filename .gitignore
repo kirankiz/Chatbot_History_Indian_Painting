@@ -1,0 +1,64 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+
+# =========================
+# Virtual environments
+# =========================
+.venv/
+venv/
+env/
+
+# =========================
+# Jupyter / Colab
+# =========================
+.ipynb_checkpoints/
+*.ipynb~
+
+# =========================
+# Environment & secrets
+# =========================
+.env
+.env.*
+*.key
+*.pem
+
+# =========================
+# Data files (generated)
+# =========================
+*.zip
+*.jsonl
+*.json
+*.txt
+
+# =========================
+# ChromaDB persistence
+# =========================
+chroma_db/
+chroma.sqlite3
+
+# =========================
+# Images (generated artifacts)
+# =========================
+extracted_images_full_pages/
+refined_illustrations/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+.vscode/
+.idea/
