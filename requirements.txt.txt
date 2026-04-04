@@ -1,0 +1,39 @@
+# Core Python utilities
+numpy==1.26.4
+pillow
+tqdm
+
+# PDF + OCR
+PyMuPDF
+pytesseract
+opencv-python
+
+# Image & file handling
+opencv-python-headless
+
+# Hugging Face & Transformers (VLM)
+transformers>=4.39.0
+accelerate
+bitsandbytes
+torch
+
+# Vector DB & embeddings
+chromadb
+sentence-transformers
+
+# FastAPI backend
+fastapi
+uvicorn
+
+# LangChain (used for OpenRouter integration)
+langchain
+langchain-community
+langchain-core
+tiktoken
+
+# Optional: ngrok for public access
+pyngrok
+nest-asyncio
+
+# Optional: environment variable loading
+python-dotenv
