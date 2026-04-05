@@ -379,6 +379,8 @@ Due to access restrictions in office systems, I used Google colab for the entire
 
 Major issues were faced due to version difference of different libraries. This demanded frequest re-installation of libraries and runtime restart. This severly affected code robustness and development time.
 
-Due to frequesnt runtime disconnect and GPU unavailablility, it was very difficult to complete the development and printing output.
+Due to frequent runtime disconnect and GPU unavailablility, it was very difficult to complete the development and printing output.
+
+Swagger UI is not used and the FastAPI endpoints are ran directly on the colab interface. This was done due to the firewall and security systems in the office laptop. Tried to get it done using nGrok API, but failed to do so due to the above and version change issues. 
 
 
