@@ -1,4 +1,4 @@
-# Chatbot_History_Indian_Painting
+# Chatbot on History of Indian Painting
 
 ## Problem statement
 
