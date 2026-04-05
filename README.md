@@ -166,5 +166,72 @@ e) VLM (LLaVA‑1.5):
 LLaVA converts visual illustrations into rich textual descriptions, enabling images to participate in standard text based retrieval without directly embedding pixels. The model is open sourced and available in Huggingface. It was selected due to the same reason. Since the appliccation is niche, the use of LLaVA model may not be well suited and may need fine tuning for better results.
 
 
+## Setup Instructions
+
+**9. Setup Instructions**
+--------------------------
+
+a) Clone the Repository
+
+    git clone https://github.com/<your-username>/<repo-name>.git
+
+    cd <repo-name>
+
+b) Create and Activate a Virtual Environment (Optional but Recommended)
+
+    python -m venv venv
+
+    source venv/bin/activate        # Linux / macOS
+
+    venv\Scripts\activate           # Windows
+
+c) Install Dependencies
+
+    pip install -r requirements.txt
+
+d) Configure Environment Variables
+
+Create a .env file using the provided template:
+
+    cp .env.example .env
+
+Update the file with required API keys (e.g., OpenRouter, Hugging Face, ngrok if needed).
+
+e) Run Data Ingestion & Indexing
+
+Execute the preprocessing notebooks in order:
+
+PDF text extraction (OCR)
+
+Text chunking and metadata creation
+
+Image extraction and VLM summarization
+
+Corpus merging and embedding generation
+
+This builds the ChromaDB vector store locally.
+
+f) Start the FastAPI Server
+
+    uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+g) Test the Application
+
+Open Swagger UI:
+
+    http://127.0.0.1:8000/docs
+
+Or query via Python
+
+    requests.post(
+    
+      "http://127.0.0.1:8000/query",  
+      
+      json={"query": "Explain Mughal miniature painting"}  
+      
+    )
+
+The system is now ready for multimodal RAG queries.
+
 
 
