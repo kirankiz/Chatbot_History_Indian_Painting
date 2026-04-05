@@ -367,4 +367,18 @@ API can be explored interactively via Swagger UI at:
   http://127.0.0.1:8000/docs
 
 
+**11.	Screenshots**
+
+Refer the screenshot folder.
+
+**12.	Limitations & Future Work**
+
+For the specific topic selected, VLM is not properly giving description for the images. For example, it cannot identify the mughal painting or a cave painting properly and describe the school, painting style etc. We need Fine-tuned VLM model for this purposes.
+
+Due to access restrictions in office systems, I used Google colab for the entire chatbot development. This demanded use of LLM model through API call. This could've been avoided if an open-sourced LLM is installed in the system. This would've supported offline working also.
+
+Major issues were faced due to version difference of different libraries. This demanded frequest re-installation of libraries and runtime restart. This severly affected code robustness and development time.
+
+Due to frequesnt runtime disconnect and GPU unavailablility, it was very difficult to complete the development and printing output.
+
 
