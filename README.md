@@ -16,7 +16,119 @@ This affects the speed of reasearch, as the pdf files are heavy in size with sma
 
 **6. Problem statement:** Prepare a RAG chatbot that ingests old archived documents (scanned or photographed pdf files) and answers user query based on that.
 
+#Architecture overview
+
 **7. Architecture overview:**
+
+This system implements a multimodal Retrieval‑Augmented Generation (RAG) architecture that ingests a scanned art history PDF containing texts, illustrations and tables (at index section). Text is extracted using OCR and chunked with rich metadata, while images are detected using OpenCV and converted into descriptive text using a Vision‑Language Model (LLaVA). The contents in index are considered as in table format and trated using numpy arrays. All text chunks and image summaries are embedded into a unified ChromaDB vector store. A FastAPI backend enables semantic querying, retrieving the most relevant multimodal context and optionally generating grounded responses using a large language model.
+
+**7.1. High‑Level Components**
+
+A. Data Sources
+----------------
+Scanned PDF:
+
+  History_of_Indian_painting.pdf
+  Contains OCR‑required text and embedded illustrations.
+
+B. Ingestion & Indexing Layer
+------------------------------
+Handles offline preprocessing and vector indexing.
+
+a). Text Extraction:
+
+    PyMuPDF renders each page as an image
+    
+    Tesseract OCR converts images → text
+    
+    Output: extracted_text.txt
+
+b). Text Chunking & Metadata:
+
+    LangChain RecursiveCharacterTextSplitter
+    
+    Chunk size: ~500 chars, overlap: 100
+    
+    Metadata attached:
+    
+      chunk_id
+      
+      page
+      
+      section
+      
+      chunk_type = "text"
+
+c). Image Extraction:
+
+    PyMuPDF exports each page as a high‑res image
+    
+    OpenCV detects illustration contours
+    
+    Cropped illustrations saved in refined_illustrations/
+
+d). Image Indexing:
+
+    Filenames parsed for page numbers
+    
+    Image metadata stored in image_index.json
+
+e). Image → Text (VLM):
+
+    LLaVA‑1.5‑7B (4‑bit quantized)
+    
+    Generates art‑historical descriptions
+    
+    Output: image_summaries.json
+    
+    Metadata:
+    
+      chunk_id
+      
+      page
+      
+      filename
+      
+      chunk_type = "image_summary"
+
+f). Corpus Merge:
+
+    Text chunks + image summaries merged into:
+    
+      rag_corpus.json
+
+g). Embedding & Vector Store:
+
+    SentenceTransformers (all-MiniLM-L6-v2)
+    
+    ChromaDB persistent collection
+    
+    Both text & image summaries embedded uniformly
+
+**C. Serving Layer (FastAPI)**
+--------------------------------
+a). Vector Retrieval:
+
+    Semantic search over ChromaDB
+    
+    Top‑K retrieval with distances & metadata
+
+b). LLM Generation:
+
+    OpenRouter (qwen/qwen3.6-plus:free/ OpenAI‑compatible)
+    
+    Retrieval context injected into prompt
+    
+    Graceful fallback if LLM unavailable
+
+c). API Endpoints:
+
+    /health → system status
+    
+    /ingest → add new documents
+    
+    /query → retrieve + generate answer
+
 
 <img width="900" height="1804" alt="mermaid-diagram" src="https://github.com/user-attachments/assets/6e8a02eb-c557-4d46-a4e1-0c5123803f8f" />
 
