@@ -233,5 +233,138 @@ Or query via Python
 
 The system is now ready for multimodal RAG queries.
 
+## API Documentation
+
+**10. API Documentation**
+-------------------------
+
+The system exposes a RESTful API built using FastAPI to support health monitoring, document ingestion, and semantic querying over the multimodal RAG corpus.
+
+Base URL (local):
+
+    http://127.0.0.1:8000
+
+a) Health Check API
+
+GET /health
+
+Description:
+Checks whether the FastAPI server, vector database, and LLM integration are running correctly. Also returns basic runtime statistics.
+
+Sample Request:
+
+  GET /health
+
+Sample Response:
+
+  {
+    "status": "ok",
+    "message": "RAG API is running",
+    "llm_ready": true,
+    "indexed_documents": 594,
+    "uptime": "00:12:37"
+  }
+
+b) Document Ingestion API
+
+POST /ingest
+
+Description:
+Dynamically ingests a new document chunk into the ChromaDB vector store. This endpoint supports incremental updates without rebuilding the entire index.
+
+Request Body:
+
+    {
+      "id": "custom_doc_001",
+      "content": "Indian miniature painting flourished under Mughal patronage...",
+      "metadata": {
+        "source": "Manual Ingest",
+        "page": 120,
+        "section": "Mughal Painting",
+        "chunk_type": "text"
+      }
+    }
+
+Sample Response:
+
+    {
+      "status": "success",
+      "message": "Document with ID custom_doc_001 ingested.",
+      "id": "custom_doc_001"
+    }
+
+Error Responses:
+
+  503 – Vector database not initialized
+  500 – Error during ingestion
+
+C) Query API (Core RAG Endpoint)
+
+POST /query
+
+Description:
+Accepts a natural‑language query, retrieves the most relevant text and image‑summary chunks from ChromaDB, and optionally generates a grounded answer using an LLM.
+
+Request Body:
+
+    {
+      "query": "Explain Mughal miniature painting",
+      "n_results": 5
+    }
+
+Successful Response (LLM enabled):
+
+    {
+      "query": "Explain Mughal miniature painting",
+      "answer": "Mughal miniature painting developed under imperial patronage, blending Persian techniques with Indian themes...",
+      "sources": [
+        {
+          "content": "Mughal miniature painting reached its height during the reign of Jahangir...",
+          "metadata": {
+            "page": 66,
+            "section": "Mughal School",
+            "chunk_type": "text"
+          },
+          "distance": 0.21
+        },
+        {
+          "content": "The image depicts a courtly Mughal scene with fine brushwork and rich pigments...",
+          "metadata": {
+            "page": 71,
+            "section": "Image Description",
+            "chunk_type": "image_summary"
+          },
+          "distance": 0.29
+        }
+      ]
+    }
+
+Fallback Response (LLM not available):
+
+    {
+      "query": "Explain Mughal miniature painting",
+      "answer": "LLM not initialized. Showing raw retrieval results.",
+      "sources": [
+        {
+          "content": "Mughal miniature painting reached its height...",
+          "metadata": {
+            "page": 66,
+            "chunk_type": "text"
+          },
+          "distance": 0.21
+        }
+      ]
+    }
+
+Notes
+
+All responses are returned in JSON format.
+
+Image content is represented indirectly through VLM‑generated textual summaries, not raw images.
+
+API can be explored interactively via Swagger UI at:
+
+  http://127.0.0.1:8000/docs
+
 
 
