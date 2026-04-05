@@ -130,7 +130,16 @@ c). API Endpoints:
     /query → retrieve + generate answer
 
 
-<img width="900" height="1804" alt="mermaid-diagram" src="https://github.com/user-attachments/assets/6e8a02eb-c557-4d46-a4e1-0c5123803f8f" />
+**7.2. Ingestion Pipeline (Offline)**
+--------------------------------------
+<img width="1017" height="2268" alt="Ingsetion pipeline" src="https://github.com/user-attachments/assets/537ab89a-530c-4d93-924f-784000233039" />
+
+**7.3. Query Pipeline (Online / Runtime)**
+--------------------------------------------
+
+<img width="1050" height="2408" alt="Query pipeline" src="https://github.com/user-attachments/assets/4db7428f-a2bd-4fa9-aa04-1638e1d8458b" />
+
+
 
 **8. Technology Choices:**  
 
