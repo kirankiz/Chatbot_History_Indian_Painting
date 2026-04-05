@@ -1,6 +1,6 @@
 # Chatbot_History_Indian_Painting
 
-**Problem statement**
+## Problem statement
 
 **1. Domain identification:** A chatbot that answers user queries based on the History of Indian Painting. It works based on the knowledge from the work of Percy Brown (Indian Painting, 1917).
 Book is made available in the public domain by Central Archaeological Library and can be found in https://ignca.gov.in/Asi_data/14801.pdf
@@ -16,7 +16,7 @@ This affects the speed of reasearch, as the pdf files are heavy in size with sma
 
 **6. Problem statement:** Prepare a RAG chatbot that ingests old archived documents (scanned or photographed pdf files) and answers user query based on that.
 
-#Architecture overview
+## Architecture overview
 
 **7. Architecture overview:**
 
@@ -139,9 +139,32 @@ c). API Endpoints:
 
 <img width="1050" height="2408" alt="Query pipeline" src="https://github.com/user-attachments/assets/4db7428f-a2bd-4fa9-aa04-1638e1d8458b" />
 
+## Technology choices
 
+**8. Technology Choices:**
+---------------------------
+The RAG chatbot is developed in Google Colab platform. So the main criteria for choosing the components are better compatiblity with the colab platform. Following are the components choosen for different tasks.
 
-**8. Technology Choices:**  
+a) Parser (PyMuPDF + Tesseract OCR):
+
+PyMuPDF efficiently renders PDF pages into high‑resolution images, while Tesseract OCR reliably extracts text from scanned documents, making the pipeline robust to non‑digitally born PDFs (scanned copies or photographs).
+
+b) Embedding Model (SentenceTransformers – all‑MiniLM‑L6‑v2):
+
+This model provides a strong balance of semantic accuracy, speed, and low memory usage, making it well suited for embedding both text chunks and image‑generated descriptions in a unified vector space.
+
+c) Vector Store (ChromaDB):
+
+ChromaDB offers persistent storage, fast similarity search, and simple metadata handling, which fits well for structured RAG pipelines and local experimentation.
+
+d) LLM (OpenRouter‑hosted Qwen- qwen/qwen3.6-plus:free):
+
+The LLM is used only at query time to synthesize answers from retrieved context, keeping generation grounded while allowing flexible model swapping and graceful fallback if unavailable. Qwen3.6 was a freely available LLm model from Openrouter, with less parameters and better efficiency.
+
+e) VLM (LLaVA‑1.5):
+
+LLaVA converts visual illustrations into rich textual descriptions, enabling images to participate in standard text based retrieval without directly embedding pixels. The model is open sourced and available in Huggingface. It was selected due to the same reason. Since the appliccation is niche, the use of LLaVA model may not be well suited and may need fine tuning for better results.
+
 
 
 
